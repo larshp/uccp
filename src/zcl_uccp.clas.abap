@@ -26,6 +26,7 @@ CLASS ZCL_UCCP IMPLEMENTATION.
 
     DATA lv_class TYPE string.
     DATA lv_xstr  TYPE xstring.
+    DATA instance TYPE REF TO object.
 
     lv_class = 'CL_ABAP_CONV_IN_CE'.
 
@@ -38,7 +39,15 @@ CLASS ZCL_UCCP IMPLEMENTATION.
       CATCH cx_sy_dyn_call_illegal_class.
         lv_xstr = uccp.
 
-        char = cl_abap_conv_codepage=>create_in( )->convert( lv_xstr ).
+        CALL METHOD ('CL_ABAP_CONV_CODEPAGE')=>create_in
+          RECEIVING
+            instance = instance.
+
+        CALL METHOD instance->('IF_ABAP_CONV_IN~CONVERT')
+          EXPORTING
+            input = lv_xstr
+          IMPORTING
+            data  = char.
     ENDTRY.
 
   ENDMETHOD.
