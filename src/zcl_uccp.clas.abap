@@ -25,7 +25,8 @@ CLASS ZCL_UCCP IMPLEMENTATION.
   METHOD uccp.
 
     DATA lv_class TYPE string.
-    DATA lv_hex TYPE x LENGTH 2.
+    DATA lv_xstr  TYPE xstring.
+
     lv_class = 'CL_ABAP_CONV_IN_CE'.
 
     TRY.
@@ -34,10 +35,10 @@ CLASS ZCL_UCCP IMPLEMENTATION.
             uccp = uccp
           RECEIVING
             char = char.
-      CATCH cx_sy_dyn_call_illegal_method.
-        lv_hex = uccp.
+      CATCH cx_sy_dyn_call_illegal_class.
+        lv_xstr = uccp.
 
-
+        char = cl_abap_conv_codepage=>create_in( )->convert( lv_xstr ).
     ENDTRY.
 
   ENDMETHOD.
