@@ -40,14 +40,16 @@ CLASS ZCL_UCCP IMPLEMENTATION.
         lv_xstr = uccp.
 
         CALL METHOD ('CL_ABAP_CONV_CODEPAGE')=>create_in
+          EXPORTING
+            codepage = 'UTF-16'
           RECEIVING
             instance = instance.
 
         CALL METHOD instance->('IF_ABAP_CONV_IN~CONVERT')
           EXPORTING
-            input = lv_xstr
-          IMPORTING
-            data  = char.
+            input  = lv_xstr
+          RECEIVING
+            result = char.
     ENDTRY.
 
   ENDMETHOD.
