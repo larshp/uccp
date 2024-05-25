@@ -45,9 +45,12 @@ CLASS ZCL_UCCP IMPLEMENTATION.
           RECEIVING
             instance = instance.
 
+* convert endianness
+        CONCATENATE lv_xstr+1(1) lv_xstr(1) INTO lv_xstr IN BYTE MODE.
+
         CALL METHOD instance->('IF_ABAP_CONV_IN~CONVERT')
           EXPORTING
-            input  = lv_xstr
+            source = lv_xstr
           RECEIVING
             result = char.
     ENDTRY.
