@@ -25,6 +25,7 @@ CLASS ZCL_UCCP IMPLEMENTATION.
   METHOD uccp.
 
     DATA lv_class TYPE string.
+    DATA lv_hex TYPE x LENGTH 2.
     lv_class = 'CL_ABAP_CONV_IN_CE'.
 
     TRY.
@@ -34,6 +35,9 @@ CLASS ZCL_UCCP IMPLEMENTATION.
           RECEIVING
             char = char.
       CATCH cx_sy_dyn_call_illegal_method.
+        lv_hex = uccp.
+
+
     ENDTRY.
 
   ENDMETHOD.
