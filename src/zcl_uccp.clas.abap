@@ -1,18 +1,18 @@
-class ZCL_UCCP definition
-  public
-  final
-  create public .
+CLASS zcl_uccp DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
 
-public section.
+  PUBLIC SECTION.
 
-  types:
-    ty_char2 TYPE c LENGTH 2 .
+    TYPES:
+      ty_char2 TYPE c LENGTH 2 .
 
-  class-methods UCCP
-    importing
-      !UCCP type SIMPLE
-    returning
-      value(CHAR) type TY_CHAR2 .
+    CLASS-METHODS uccp
+      IMPORTING
+        !uccp       TYPE clike
+      RETURNING
+        VALUE(char) TYPE ty_char2 .
   PROTECTED SECTION.
   PRIVATE SECTION.
 ENDCLASS.
@@ -22,6 +22,19 @@ ENDCLASS.
 CLASS ZCL_UCCP IMPLEMENTATION.
 
 
-  METHOD UCCP.
+  METHOD uccp.
+
+    DATA lv_class TYPE string.
+    lv_class = 'CL_ABAP_CONV_IN_CE'.
+
+    TRY.
+        CALL METHOD (lv_class)=>uccp
+          EXPORTING
+            uccp = uccp
+          RECEIVING
+            char = char.
+      CATCH cx_sy_dyn_call_illegal_method.
+    ENDTRY.
+
   ENDMETHOD.
 ENDCLASS.
